@@ -5,5 +5,5 @@ language.
 
 ## Adventurer's Survival Guide
 
-* (rustup)[https://rustup.rs/]
-* (Cargo Guide)[http://doc.crates.io/guide.html]
+* [rustup](https://rustup.rs)
+* [Cargo Guide](http://doc.crates.io/guide.html)
