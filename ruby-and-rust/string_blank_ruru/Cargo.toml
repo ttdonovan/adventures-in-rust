@@ -1,0 +1,10 @@
+[package]
+name = "string_blank"
+version = "0.1.0"
+authors = ["Tanner Donovan <ttdonovan@gmail.com>"]
+
+[lib]
+crate-type = ["dylib"]
+
+[dependencies]
+ruru="0.8.1"

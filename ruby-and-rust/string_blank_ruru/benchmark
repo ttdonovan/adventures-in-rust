@@ -1,0 +1,97 @@
+#!/usr/bin/env ruby
+require 'benchmark/ips'
+require 'fiddle'
+
+library = Fiddle.dlopen('target/release/libstring_blank.dylib')
+Fiddle::Function.new(library['initialize_string'], [], Fiddle::TYPE_VOIDP).call
+
+class String
+  def slow_blank?
+    /\A[[:space:]]*\z/ === self
+  end
+end
+
+test_strings = [
+  "",
+  "\r\n\r\n",
+  "    this is a test",
+  "    this is a longer test
+       this is a longer test
+       this is a longer test
+       this is a longer test"
+]
+
+test_strings.each do |s|
+  puts "\n================== Test String Length: #{s.length} =================="
+
+  Benchmark.ips do |x|
+    x.report("Fast Blank") do |times|
+      i = 0
+      while i < times
+        s.blank?
+        i += 1
+      end
+    end
+
+    x.report("Slow Blank") do |times|
+      i = 0
+      while i < times
+        s.slow_blank?
+        i += 1
+      end
+    end
+
+    x.compare!
+  end
+end
+
+# ================== Test String Length: 0 ==================
+# Warming up --------------------------------------
+#           Fast Blank   180.634k i/100ms
+#           Slow Blank    59.353k i/100ms
+# Calculating -------------------------------------
+#           Fast Blank     11.114M (± 1.9%) i/s -     55.635M in   5.007889s
+#           Slow Blank    969.828k (± 1.5%) i/s -      4.867M in   5.019539s
+
+# Comparison:
+#           Fast Blank: 11113672.2 i/s
+#           Slow Blank:   969827.9 i/s - 11.46x slower
+
+
+# ================== Test String Length: 4 ==================
+# Warming up --------------------------------------
+#           Fast Blank   149.783k i/100ms
+#           Slow Blank    55.490k i/100ms
+# Calculating -------------------------------------
+#           Fast Blank      5.709M (± 1.7%) i/s -     28.609M in   5.012740s
+#           Slow Blank    866.982k (± 3.2%) i/s -      4.384M in   5.061945s
+
+# Comparison:
+#           Fast Blank:  5708822.3 i/s
+#           Slow Blank:   866982.5 i/s - 6.58x slower
+
+
+# ================== Test String Length: 18 ==================
+# Warming up --------------------------------------
+#           Fast Blank   149.155k i/100ms
+#           Slow Blank    82.996k i/100ms
+# Calculating -------------------------------------
+#           Fast Blank      5.540M (± 2.2%) i/s -     27.743M in   5.010607s
+#           Slow Blank      1.683M (± 2.2%) i/s -      8.466M in   5.031235s
+
+# Comparison:
+#           Fast Blank:  5539596.1 i/s
+#           Slow Blank:  1683413.7 i/s - 3.29x slower
+
+
+# ================== Test String Length: 112 ==================
+# Warming up --------------------------------------
+#           Fast Blank   146.755k i/100ms
+#           Slow Blank    82.483k i/100ms
+# Calculating -------------------------------------
+#           Fast Blank      5.323M (± 2.1%) i/s -     26.709M in   5.019633s
+#           Slow Blank      1.673M (± 2.5%) i/s -      8.413M in   5.032950s
+
+# Comparison:
+#           Fast Blank:  5323488.2 i/s
+#           Slow Blank:  1672651.6 i/s - 3.18x slower
