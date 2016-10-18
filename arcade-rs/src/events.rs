@@ -1,6 +1,8 @@
 macro_rules! struct_events {
     (
-        keyboard: { $( $k_alias:ident : $k_sdl:ident ),* }
+        keyboard: { $( $k_alias:ident : $k_sdl:ident ),* },
+
+        else: { $( $e_alias:ident : $e_sdl:pat ),* }
     )
     => {
         use sdl2::EventPump;
@@ -10,14 +12,16 @@ macro_rules! struct_events {
             // Some(true) => was just pressed
             // Some(false) => was just released
             // None => nothing happening _now_
-            $( pub $k_alias: Option<bool> ),*
+            $( pub $k_alias: Option<bool> , )*
+            $( pub $e_alias: bool ),*
         }
 
         impl ImmediateEvents {
             pub fn new() -> ImmediateEvents {
                 ImmediateEvents {
                     // when reinitialized, nothing has yet happened all are set to None
-                    $( $k_alias: None ),*
+                    $( $k_alias: None , )*
+                    $( $e_alias: false),*
                 }
             }
         }
@@ -80,6 +84,12 @@ macro_rules! struct_events {
                             ),* // and add a comma after every option
                             _ => {}
                         },
+
+                        $(
+                            $e_sdl => {
+                                self.now.$e_alias = true;
+                            }
+                        )*,
 
                         _ => {}
                     }
