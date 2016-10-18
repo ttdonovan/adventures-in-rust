@@ -1,9 +1,20 @@
 extern crate sdl2;
 
+// ask the compiler to import the macros defined in `events` module
+#[macro_use]
 mod events;
 
-use events::Events;
 use sdl2::pixels::Color;
+
+// cannot call functions at top-level. However, `struct_events` is not
+// a usual function: it's a macro
+struct_events! {
+    keyboard: {
+        key_escape: Escape,
+        key_up: Up,
+        key_down: Down
+    }
+}
 
 fn main() {
     // initialize SDL2
@@ -25,7 +36,7 @@ fn main() {
     loop {
         events.pump();
 
-        if events.quit || events.key_escape {
+        if events.now.key_escape == Some(true) {
             break;
         }
 
