@@ -1,0 +1,7 @@
+[package]
+name = "arcade-rs"
+version = "0.1.0"
+authors = ["Tanner Donovan <ttdonovan@gmail.com>"]
+
+[dependencies]
+sdl2 = "0.24"
