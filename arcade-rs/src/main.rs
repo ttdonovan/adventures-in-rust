@@ -1,23 +1,10 @@
 extern crate sdl2;
 
-// ask the compiler to import the macros defined in `events` module
-#[macro_use]
-mod events;
+mod phi;
+mod views;
 
 use sdl2::pixels::Color;
-
-// cannot call functions at top-level. However, `struct_events` is not
-// a usual function: it's a macro
-struct_events! {
-    keyboard: {
-        key_escape: Escape,
-        key_up: Up,
-        key_down: Down
-    },
-    else: {
-        quit: Quit { .. }
-    }
-}
+use phi::Events;
 
 fn main() {
     // initialize SDL2
