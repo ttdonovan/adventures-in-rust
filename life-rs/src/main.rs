@@ -34,9 +34,10 @@ fn init<'a>() -> (Renderer<'a>, EventPump) {
 fn main() {
     let (mut r, mut e) = init();
 
-    r.set_draw_color(Color::RGB(255, 0, 0));
-    r.fill_rect(Rect::new(10, 10, 100, 100));
-    r.present();
+    let mut x = 0;
+    let y = 20;
+    let white = Color::RGB(255, 255, 255);
+    let red = Color::RGB(255, 0, 0);
 
     'running:loop {
         for event in e.poll_iter() {
@@ -47,6 +48,12 @@ fn main() {
                 _ => {}
             }
         }
-        thread::sleep(time::Duration::from_millis(10));
+        r.set_draw_color(white);
+        r.clear();
+        r.set_draw_color(red);
+        r.fill_rect(Rect::new(x, y, 10, 10));
+        r.present();
+        x = (x + 5) % 400;
+        thread::sleep(time::Duration::from_millis(50));
     }
 }
