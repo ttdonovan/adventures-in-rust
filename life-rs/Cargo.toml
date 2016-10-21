@@ -1,0 +1,8 @@
+[package]
+name = "life"
+version = "0.1.0"
+authors = ["Tanner Donovan <ttdonovan@gmail.com>"]
+
+[dependencies]
+sdl2 = "0.24"
+rand = "0.3"
