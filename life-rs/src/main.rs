@@ -81,9 +81,67 @@ fn display_frame(r: &mut Renderer, v: &Vec<Vec<bool>>) {
     r.present();
 }
 
+fn inc(n: usize) -> usize {
+    (n + 1) % (NCELLS as usize)
+}
+
+fn dec(n: usize) -> usize {
+    if n == 0 {
+        (NCELLS - 1) as usize
+    } else {
+        (n - 1) as usize
+    }
+}
+
+fn count_surrounding(r: i32, c: i32, v: &Vec<Vec<bool>>) -> i32 {
+    let r = r as usize;
+    let c = c as usize;
+
+    v[dec(r)][c] as i32 +
+    v[r][dec(c)] as i32 +
+    v[r][inc(c)] as i32 +
+    v[dec(r)][dec(c)] as i32 +
+    v[dec(r)][inc(c)] as i32 +
+    v[inc(r)][inc(c)] as i32 +
+    v[inc(r)][dec(c)] as i32
+
+}
+
+fn alive(r: i32, c: i32, v: &Vec<Vec<bool>>) -> bool {
+    let n = count_surrounding(r, c, v);
+    let curr = v[r as usize][c as usize] as i32;
+
+    match (curr, n) {
+        (1, 0...1) => false,
+        (1, 4...8) => false,
+        (1, 2...3) => true,
+        (0, 3)     => true,
+        (0, 0...2) => false,
+        (0, 4...8) => false,
+        _ => panic!("alive: error in match"),
+    }
+}
+
+fn life_next(v: Vec<Vec<bool>>) -> Vec<Vec<bool>> {
+    let mut v2:Vec<Vec<bool>> = Vec::new();
+
+    for i in 0..NCELLS {
+            v2.push(Vec::new());
+        for j in 0..NCELLS {
+            if alive(i,  j, &v) {
+                v2[i as usize].push(true);
+            } else {
+                v2[i as usize].push(false);
+            }
+        }
+    }
+
+    v2
+}
+
 fn main() {
     let (mut r, mut e) = init();
-    let v = life_random(NCELLS);
+    let mut v = life_random(NCELLS);
 
     'running:loop {
         for event in e.poll_iter() {
@@ -95,6 +153,7 @@ fn main() {
             }
         }
         display_frame(&mut r, &v);
+        v = life_next(v);
         thread::sleep(time::Duration::from_millis(50));
     }
 }
