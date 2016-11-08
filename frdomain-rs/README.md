@@ -8,3 +8,22 @@ model in terms of pure functions and how to compose them to build larger
 abstractions.
 
 * [Github](https://github.com/debasishg/frdomain)
+
+## Domain Elements
+
+### Entity
+
+* has an identity
+* passes through multiple states in the life-cycle
+* usually has a definite life-cycle in the business
+
+### Value Object
+
+* semantically immutable
+* can be freely shared across entities
+
+### Services
+
+* more macro-level abstraction than entity or value object
+* involves multiple entities and value objects
+* usually models a use case of the business
