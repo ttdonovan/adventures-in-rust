@@ -15,15 +15,15 @@ trait AccountService {
 
     fn balance(&self) -> &Balance;
 
-    fn credit(&self, amount: f64) -> Balance {
-        Balance { amount: self.balance().amount + amount }
+    fn credit(&self, amount: f64) -> Result<Balance, String> {
+        Ok(Balance { amount: self.balance().amount + amount })
     }
 
-    fn debit(&self, amount: f64) -> Balance {
+    fn debit(&self, amount: f64) -> Result<Balance, String> {
         if self.balance().amount < amount {
-            panic!("Insufficient balance in account");
+            return Err("Insufficient balance in account".to_string());
         }
-        Balance { amount: self.balance().amount - amount }
+        Ok(Balance { amount: self.balance().amount - amount })
     }
 }
 
@@ -45,11 +45,21 @@ fn main() {
     let mut account : Account = AccountService::new("a1", "John", 0.0);
     println!("Account: {:?}", account);
 
-    account.balance = account.credit(100.0);
-    assert!(account.balance == Balance { amount: 100.0 });
+    match account.credit(100.0) {
+        Ok(balance) => {
+            account.balance = balance;
+            assert!(account.balance == Balance { amount: 100.0 })
+        },
+        _ => { panic!("Something horrible has gone wrong!") }
+    }
 
-    account.balance = account.debit(20.0);
-    assert!(account.balance == Balance { amount: 80.0 });
+    match account.debit(20.0) {
+        Ok(balance) => {
+            account.balance = balance;
+            assert!(account.balance == Balance { amount: 80.0 })
+        }
+        Err(e) => { panic!(e) }
+    }
 
     println!("Balance: {:?}", account.balance);
 }
