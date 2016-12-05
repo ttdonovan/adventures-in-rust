@@ -9,7 +9,7 @@ abstractions.
 
 * [Github](https://github.com/debasishg/frdomain)
 
-## Domain Elements
+## Ch 1-2. Domain Elements
 
 ### Entity
 
@@ -27,3 +27,29 @@ abstractions.
 * more macro-level abstraction than entity or value object
 * involves multiple entities and value objects
 * usually models a use case of the business
+
+## Ch 3. Designing Functional Domain Models
+
+### The algebra of API Design
+
+* Algebraic API design
+* How it differs from OO design
+
+In functional programming start with the _operations_ that correspond to the
+basic domain behaviors and group related ones into _modules_ that form larger
+use cases. Each behavior is modeled using functions that operate on types; the
+types represent the data, class, or object of the domain.
+
+### Defining the algebra of a domain service
+
+* Designing a specific algebra
+* Composing algebra
+* Laws of algebra
+
+### Lifecycle patterns of domain objects
+
+* Factories
+* Aggregates
+* Repositories
+* Functional Programming abstractions (lenses, monads)
+* Dependency injection in Functional Programming
