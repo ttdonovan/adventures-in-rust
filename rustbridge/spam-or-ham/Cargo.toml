@@ -1,0 +1,10 @@
+[package]
+name = "spam_or_ham"
+version = "0.1.0"
+authors = ["Tanner Donovan <ttdonovan@gmail.com>"]
+
+[dependencies]
+hyper = "*"
+zip = "*"
+rustlearn = "*"
+time = "*"
