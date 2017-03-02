@@ -1,0 +1,75 @@
+[REQ-purpose]
+text = '''
+Write a flash card quizzer from scratch and learn about artifact
+while doing so.
+
+The example tutorial can be found here:
+    http://wiki.openhatch.org/Flash_card_challenge
+or at: {repo}/flash_card_challenge.htm
+
+The program should be easy to understand and follow along so that it can
+reach maximum audience for instructing in artifact
+'''
+
+[REQ-purpose-config]
+text = '''
+The command **shall** get the questions from a simple comma-separated
+text file, allowing for any thing to be quizzed on easily
+'''
+
+[REQ-purpose-learning]
+text = '''
+The flash program should do things in a way that is most condusive to learning
+the desired subject. This includes:
+ - asking items in a random order
+ - asking missed items more often
+ - telling the correct answer after the user answers incorrectly
+ - allow users to configure time limits, so they can
+    compare results between quizzes.
+'''
+
+[REQ-load]
+partof = "REQ-purpose"
+text = '''
+The user shall be able to easily configure the quiz questions through a simple
+csv format consisting of two columns: the question and the answer.
+'''
+
+[SPC-cmd]
+partof = "REQ-purpose"
+text = '''
+The minimum viable product shall be a command line utility that is given the
+path to one or more question files as arguments.
+
+Additional arguments will include:
+- `-t`: specify the time allowed for each question
+- `-T`: specify the total time allowed for the whole quiz
+- `-r NUM`: repeat questions only a certain number of times.
+    By default there is no limits.
+
+The program will ask one question at a time, recording how many answers
+the user got correct/incorrect.
+
+When the program is complete:
+- time taken, broken up by whole quiz and each question
+- the user's score
+'''
+
+[SPC-response]
+partof = "SPC-cmd"
+text = '''
+When an answer to a question is correct, a happy message **shall** be 
+displayed. Otherwise, an error message with the correct answer **shall** be 
+displayed.
+
+TODO: detail how the message shall look.
+'''
+
+[SPC-random]
+partof = "REQ-purpose"
+text = '''
+The questions **shall** be presented randomly.
+
+Questions that are missed **shall** be given a higher weight to being asked 
+again, to help the user learn.
+'''
