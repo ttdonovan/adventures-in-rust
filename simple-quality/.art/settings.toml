@@ -1,4 +1,5 @@
 #TUTORIAL=true
+# artifact project settings
 
 # Note: {cwd} == current directory of THIS file
 #       {repo} == directory of the `.art` file
@@ -7,7 +8,7 @@
 artifact_paths = ['{repo}/design']
 
 # directories containing code that has artifact links
-code_paths = []
+code_paths = ['{repo}/flash']
 
 # directories to exclude when searching through code
 exclude_code_paths = []
