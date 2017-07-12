@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["Tanner Donovan <ttdonovan@gmail.com>"]
 
 [dependencies]
+tcod = { version = "0.11", features = ["serialization"] }
